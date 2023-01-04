@@ -5,13 +5,22 @@ import unicodedata
 
 # file_nameがdir_nameに含まれるかどうかチェックし，含まれればtrueを返す
 def check_dir(dir_name, file_name):
+    result = False
     dir_name = unicodedata.normalize('NFKC', dir_name)
-    file_name = unicodedata.normalize('NFKC', file_name).replace('、', ' ').replace('・', ' ')
+    file_name = unicodedata.normalize('NFKC', file_name)
 
     if dir_name in file_name:
-        return True
-    else:
-        return False
+        result = True
+    if dir_name in file_name.replace('、', ' '):
+        result = True
+    if dir_name in file_name.replace('・', ' '):
+        result = True
+    if dir_name in file_name.replace('「', ' ').replace('」', ' '):
+        result = True
+    if dir_name.replace(' ', '') in file_name.replace(' ', ''):
+        result = True
+
+    return result
 
 
 def tidy_dir(path):
