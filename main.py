@@ -3,6 +3,17 @@ import os
 import unicodedata
 
 
+# file_nameがdir_nameに含まれるかどうかチェックし，含まれればtrueを返す
+def check_dir(dir_name, file_name):
+    dir_name = unicodedata.normalize('NFKC', dir_name)
+    file_name = unicodedata.normalize('NFKC', file_name).replace('、', ' ').replace('・', ' ')
+
+    if dir_name in file_name:
+        return True
+    else:
+        return False
+
+
 def tidy_dir(path):
     dir_name_list = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
     print(dir_name_list)
@@ -11,7 +22,7 @@ def tidy_dir(path):
 
     for dir_name in dir_name_list:
         for file_name in file_name_list:
-            if unicodedata.normalize('NFKC', dir_name) in unicodedata.normalize('NFKC', file_name):
+            if check_dir(dir_name, file_name):
                 new_dir_path = os.path.join(path, dir_name)
                 if os.path.exists(os.path.join(new_dir_path, file_name)):
                     print(f'ERROR!! "{file_name}" is already exists in [{new_dir_path}]!')
