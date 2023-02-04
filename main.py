@@ -19,6 +19,8 @@ def check_dir(dir_name, file_name):
         result = True
     if dir_name.replace(' ', '') in file_name.replace(' ', ''):
         result = True
+    if dir_name in file_name.replace('-', '').replace('－', '').replace('―', ''):
+        result = True
 
     return result
 
